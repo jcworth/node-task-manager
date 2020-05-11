@@ -33,7 +33,13 @@ const UserPass = new Schema({
 }) 
 
 UserPass.plugin(passportLocalMongoose);
-const userInfo = mongoose.model('userInfo', UserPass, 'userInfo')
+const UserInfo = mongoose.model('userInfo', UserPass, 'userInfo')
+
+// Passport authentication
+passport.use(UserInfo.createStrategy());
+
+passport.serializeUser(UserInfo.serializeUser());
+passport.deserializeUser(UserInfo.deserializeUser());
 
 // Routing
 app.get('/', (req, res) => {
